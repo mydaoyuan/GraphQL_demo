@@ -1,0 +1,26 @@
+{
+  "root": true,
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
+  "env": {
+    "browser": true
+  },
+  "extends": ["plugin:vue/essential", "standard"],
+  "plugins": ["vue"],
+  "rules": {
+    "keyword-spacing": "warn",
+    "eqeqeq": "off",
+    "comma-spacing": "warn",
+    "no-multiple-empty-lines": "off",
+    "comma-dangle": "off",
+    "no-debugger": "off",
+    "no-multi-str": "warn",
+    "no-new": "off",
+    "padded-blocks": "off",
+    "template-curly-spacing": "off",
+    "yoda": "off",
+    "semi": "off",
+    "space-before-function-paren": 0
+  }
+}
