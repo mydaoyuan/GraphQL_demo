@@ -1,0 +1,6 @@
+mutation($label: String!) {
+  addTag(label: $label) {
+    id
+    label
+  }
+}

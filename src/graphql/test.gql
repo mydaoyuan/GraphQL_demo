@@ -1,0 +1,6 @@
+query fuck {
+  fuckme: test {
+    id
+    value
+  }
+}

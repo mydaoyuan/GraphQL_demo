@@ -5,10 +5,14 @@ import { resolve } from 'path'
 
 mkdirp(resolve(__dirname, '../../live'))
 
-export const db = new Lowdb(new FileSync(resolve(__dirname, '../../live/db.json')))
+export const db = new Lowdb(
+  new FileSync(resolve(__dirname, '../../live/db.json'))
+)
 
 // Seed an empty DB
 db.defaults({
   messages: [],
   uploads: [],
+  test: [],
+  tags: []
 }).write()

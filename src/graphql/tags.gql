@@ -1,0 +1,6 @@
+query tagList {
+  tags {
+    id
+    label
+  }
+}
