@@ -2,24 +2,12 @@
   "tags": [
     {
       "id": "u8t7wnh3I",
-      "label": "搜呢么"
-    },
-    {
-      "id": "3swCrs4Uk",
-      "label": "最后一次"
-    },
-    {
-      "id": "8zdlhClWj",
-      "label": "测试的tag"
+      "label": "这是一条tag，你可以继续添加tag"
     }
   ],
   "messages": [
     {
       "id": "7Ucteg5pF",
-      "text": "测试的message"
-    },
-    {
-      "id": "oeEKBytiel",
       "text": "测试的message"
     }
   ],
@@ -29,12 +17,7 @@
       "value": "cascascaacasca213"
     }
   ],
-  "mm": [
-    {
-      "name": "龟田太郎",
-      "oupai": "CC"
-    }
-  ],
+  "mm": [],
   "uploads": [
     {
       "id": "t4R2A8G3g",

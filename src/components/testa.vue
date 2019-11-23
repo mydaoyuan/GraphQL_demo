@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div>-----------------</div>
+    <h1>组件形式查询</h1>
     <!-- Apollo watched Graphql query -->
     <ApolloQuery :query="require('../graphql/test.gql')">
       <template slot-scope="{ result: { loading, error, data } }">
@@ -17,87 +19,84 @@
       </template>
     </ApolloQuery>
 
-    <div>featuredTag :{{featuredTag}}</div>
-    <button @click="changeStatus">changeData current: {{showTag}}</button>
-    <input type="text" v-model="pingInput">
-    {{ping}}
-    <!-- <ApolloMutation :mutation="require('../graphql/addTest.gql')" :variables="{
-        testInput: {
-          value: myvalue,
-        },
-      }" class="form" @done="myvalue = ''">
-      <template slot-scope="{ mutate }">
-        <form v-on:submit.prevent="mutate()">
-          <label for="field-message">Message</label>
-          <input id="field-message" v-model="myvalue" placeholder="Type a message" class="input">
-        </form>
-      </template>
-    </ApolloMutation>-->
+    <div>-----------------</div>
+    <h1>监听变量，动态触发查询</h1>
+    <div>
+      <span>监听：</span>
+      <input type="text" v-model="pingQuery" />
+    </div>
+    <div>查询返回结果： {{ ping }}</div>
+    <div>-----------------</div>
+    <h1>智能查询，动态触发</h1>
+    <div>查询返回数据 :{{ featuredTag }}</div>
+    <button @click="changeStatus">切换查询语句关键字: {{ showTag }}</button>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 export default {
   name: 'testa',
   apollo: {
-    // 简单的查询，将更新 'hello' 这个 vue 属性
-    // featuredTag: ,
+    // 简单的查询，将更新 'ping' 这个 vue 属性
     ping: {
-      query: gql`query PingMessage($message: String!) {
-      ping(message: $message)
-    }`,
+      query: gql`
+        query PingMessage($message: String!) {
+          ping(message: $message)
+        }
+      `,
       // 响应式参数
       variables() {
         // 在这里使用 vue 响应式属性
         return {
-          message: this.pingInput,
-        }
-      },
-    },
+          message: this.pingQuery
+        };
+      }
+    }
   },
   data() {
     return {
-      myvalue: '',
-      hello: '',
-      a: '',
+      pingQuery: 'pingQuery',
       showTag: 'random',
-      featuredTag: '',
-      pingInput: '33'
-    }
+      featuredTag: ''
+    };
   },
   created() {
     this.$apollo.addSmartQuery('featuredTag', {
       query() {
-        console.log(this.showTag);
         // 这里你可以用'this' 访问组件实例
         if (this.showTag === 'last') {
           return gql`
-          query PingMessage($message: String!) {
-            a:ping(message: $message)
-          }`
+            query PingMessage($message: String!) {
+              ping(message: $message)
+            }
+          `;
         } else if (this.showTag === 'random') {
-          return gql`query my{a:hello}`
+          return gql`
+            query PingMessage {
+              hello
+            }
+          `;
         }
+        throw new Error('没有查询语句');
       },
       variables: {
-        message: 'MyMessage'
+        message: 'is MyMessage'
       },
-      // 为 'featuredTag' 这个组件属性赋值
-      update: data => data.randomTag || data.lastTag,
-    })
+      // 为 'featuredTag' 这个属性赋值
+      update: data => data
+    });
   },
   methods: {
     changeStatus() {
       if (this.showTag == 'random') {
-        this.showTag = 'lastTag'
+        this.showTag = 'last';
       } else {
-        this.showTag = 'random'
+        this.showTag = 'random';
       }
     }
   }
-}
+};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

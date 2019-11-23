@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <router-view></router-view>
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <ApolloExample msg="Welcome to Your Vue.js App"/> -->
+    <ApolloExample />
   </div>
 </template>
 
 <script>
-// import ApolloExample from './components/ApolloExample.vue'
+import ApolloExample from './components/ApolloExample.vue'
 
 export default {
   name: 'app',
   components: {
-    // ApolloExample
+    ApolloExample
   }
 }
 </script>
@@ -22,7 +21,7 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  padding: 0 40px;
   color: #2c3e50;
   margin-top: 60px;
 }

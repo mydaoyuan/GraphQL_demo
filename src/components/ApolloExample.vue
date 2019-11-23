@@ -1,14 +1,15 @@
 <template>
   <div class="apollo-example">
-    <testchange/>
+    <h1>新增tag样例</h1>
+    <add/>
     <br>
     <br>
     <testa></testa>
     <!-- Cute tiny form -->
-    <div class="form">
+    <!-- <div class="form">
       <label for="field-name" class="label">Name</label>
       <input v-model="name" placeholder="Type a name" class="input" id="field-name">
-    </div>
+    </div> -->
 
     <!-- Tchat example -->
     <!-- <ApolloQuery :query="require('../graphql/Messages.gql')">
@@ -52,7 +53,7 @@
 import FILES from '../graphql/Files.gql'
 import UPLOAD_FILE from '../graphql/UploadFile.gql'
 import testa from './testa';
-import testchange from './testchange';
+import add from './add';
 export default {
   data() {
     return {
@@ -63,7 +64,7 @@ export default {
 
   components: {
     testa,
-    testchange
+    add
   },
 
   apollo: {

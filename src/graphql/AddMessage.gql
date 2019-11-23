@@ -1,9 +1,0 @@
-mutation addMessage($input: MessageInput!) {
-  addMessage(input: $input) {
-    ...Message
-  }
-}
-fragment Message on Message {
-  id
-  text
-}

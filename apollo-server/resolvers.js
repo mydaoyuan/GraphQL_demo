@@ -10,7 +10,7 @@ export default {
 
   Query: {
     hello: (root, { name }) => `Hello ${name || 'World'}!`,
-    ping: (root, { message }) => `Answering ${message}!`,
+    ping: (root, { message }) => `触发查询，查询的message是 ${message}!`,
     messages: (root, args, { db }) => db.get('messages').value(),
     uploads: (root, args, { db }) => db.get('uploads').value(),
     test: (root, args, { db }) => db.get('test').value(),
