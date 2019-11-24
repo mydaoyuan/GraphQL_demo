@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client'
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 // Install the vue plugin
 Vue.use(VueApollo)
@@ -31,6 +32,7 @@ const defaultOptions = {
   websocketsOnly: false,
   // Is being rendered on the server?
   ssr: false,
+  cache: new InMemoryCache()
 
   // Override default apollo link
   // note: don't override httpLink here, specify httpLink options in the
@@ -48,7 +50,7 @@ const defaultOptions = {
 
   // Client local data (see apollo-link-state)
   // clientState: { resolvers: { ... }, defaults: { ... } }
-}
+};
 
 // Call this in the Vue app file
 export function createProvider (options = {}) {
