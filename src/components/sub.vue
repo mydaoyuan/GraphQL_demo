@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>订阅测试</h1>
-    <button @click="skipSubscription = true">停止订阅</button>
+    <button @click="skipSubscription = !skipSubscription">
+      {{ skipSubscription ? "继续订阅" : "停止订阅" }}
+    </button>
     <div v-for="message in messages" :key="message.id">{{ message.text }}</div>
   </div>
 </template>
@@ -13,11 +14,11 @@ export default {
   data() {
     return {
       skipSubscription: false
-    }
+    };
   },
   apollo: {
     messages: {
-      query: Messages,
+      query: Messages
       // 订阅更多 适合初始化大量数据，后续少量数据修改的情况
       // subscribeToMore: [{
       //   document: MessageAdded,
@@ -41,15 +42,16 @@ export default {
         //   }
         // },
         // 结果钩子
-        result(data) {
-          console.log(data, 'this is data')
+        result({ data }) {
+          console.log(data, '我监听到了');
+          this.messages.push(data.messageAdded);
         },
         // 跳过这个订阅
         skip() {
-          return this.skipSubscription
+          return this.skipSubscription;
         }
-      },
-    },
+      }
+    }
 
     // subscribeToMore: {
     //   document: gql`subscription name($param: String!) {
@@ -71,8 +73,7 @@ export default {
     //   },
     // }
   }
-}
+};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,0 +1,9 @@
+
+
+mutation ModifyTag($input: InputTag!) {
+  updateTag(input: $input) {
+    id
+    label
+    error
+  }
+}

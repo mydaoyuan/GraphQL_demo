@@ -1,5 +1,5 @@
-import GraphQLJSON from 'graphql-type-json'
-import shortid from 'shortid'
+import GraphQLJSON from 'graphql-type-json';
+import shortid from 'shortid';
 
 export default {
   JSON: GraphQLJSON,
@@ -13,46 +13,59 @@ export default {
     ping: (root, { message }) => `触发查询，查询的message是 ${message}!`,
     messages: (root, args, { db }) => db.get('messages').value(),
     uploads: (root, args, { db }) => db.get('uploads').value(),
-    test: (root, args, { db }) => db.get('test').value(),
     tags: (root, args, { db }) => db.get('tags').value()
   },
 
   Mutation: {
     myMutation: (root, args, context) => {
-      const message = 'My mutation completed!'
-      context.pubsub.publish('hey', { mySub: message })
-      return message
-    },
-    fuckmeAh: (root, { values }, { db }) => {
-      values.map(item => (item.id = shortid.generate()))
-      db.get('test')
-        .push(...values)
-        .last()
-        .write()
-
-      return values
+      const message = 'My mutation completed!';
+      context.pubsub.publish('hey', { mySub: message });
+      return message;
     },
     addTag: (root, { label }, { pubsub, db }) => {
-      const data = { id: shortid.generate(), label }
+      const data = { id: shortid.generate(), label };
       db.get('tags')
         .push(data)
-        .write()
-      return data
+        .write();
+      return data;
+    },
+    delTag: (root, { id }, { db }) => {
+      db.get('tags')
+        .remove({ id })
+        .write();
+      return { error: 0 };
+    },
+    updateTag: (root, { input }, { pubsub, db }) => {
+      const { id, label } = input;
+      const cur = db
+        .get('tags')
+        .find({ id })
+        .value();
+      if (cur) {
+        db.get('tags')
+          .find({ id })
+          .assign({ label })
+          .write();
+        // pubsub.publish('messages', { messageAdded: message });
+        return { id, label, error: 0 };
+      } else {
+        return { id, label, error: 1 };
+      }
     },
     addMessage: (root, { input }, { pubsub, db }) => {
       const message = {
         id: shortid.generate(),
         text: input.text
-      }
+      };
 
       db.get('messages')
         .push(message)
         .last()
-        .write()
+        .write();
 
-      pubsub.publish('messages', { messageAdded: message })
+      pubsub.publish('messages', { messageAdded: message });
 
-      return message
+      return message;
     },
 
     singleUpload: (root, { file }, { processUpload }) => processUpload(file),
@@ -68,8 +81,8 @@ export default {
       subscribe: (parent, args, { pubsub }) => {
         const channel = Math.random()
           .toString(36)
-          .substring(2, 15) // random channel name
-        let count = 0
+          .substring(2, 15); // random channel name
+        let count = 0;
         setInterval(
           () =>
             pubsub.publish(channel, {
@@ -77,8 +90,8 @@ export default {
               counter: { count: count++ }
             }),
           2000
-        )
-        return pubsub.asyncIterator(channel)
+        );
+        return pubsub.asyncIterator(channel);
       }
     },
 
@@ -86,4 +99,4 @@ export default {
       subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('messages')
     }
   }
-}
+};

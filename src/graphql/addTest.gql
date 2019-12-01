@@ -1,6 +1,0 @@
-mutation fuckmeAh($values: testInput) {
-  fuckmeAh((values: $values)) {
-    value
-    id
-  }
-}

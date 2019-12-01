@@ -1,10 +1,33 @@
 <template>
   <div class="apollo-example">
-    <h1>新增tag样例</h1>
-    <add/>
-    <br>
-    <br>
-    <testa></testa>
+    <div class="myrow">
+      <div class="item">
+        <h1>查：查询样例</h1>
+        <query />
+      </div>
+      <div class="item">
+        <h1>增改：增改tag样例</h1>
+        <add />
+      </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="myrow">
+      <div class="item">
+        <h1>订阅测试</h1>
+        <sub-item />
+      </div>
+      <div class="item">
+        <h1>查询message</h1>
+        <span style="color: #0f0"
+          >apollo自己做了一层store, 下面的查询组件没有写 新增messagse 更新后
+          重新请求视图的逻辑，但是左边的订阅监听到数据变化的话，下面的组件还是会自动更新</span
+        >
+        <query-message />
+      </div>
+    </div>
+
     <!-- Cute tiny form -->
     <!-- <div class="form">
       <label for="field-name" class="label">Name</label>
@@ -50,31 +73,35 @@
 </template>
 
 <script>
-import FILES from '../graphql/Files.gql'
-import UPLOAD_FILE from '../graphql/UploadFile.gql'
-import testa from './testa';
+import FILES from '../graphql/Files.gql';
+import UPLOAD_FILE from '../graphql/UploadFile.gql';
+import query from './query';
 import add from './add';
+import sub from './sub';
+import queryMessage from './queryMessage';
 export default {
   data() {
     return {
       name: 'Anne',
-      newMessage: '',
-    }
+      newMessage: ''
+    };
   },
 
   components: {
-    testa,
-    add
+    query,
+    add,
+    subItem: sub,
+    queryMessage
   },
 
   apollo: {
-    files: FILES,
+    files: FILES
   },
 
   computed: {
     formValid() {
-      return this.newMessage
-    },
+      return this.newMessage;
+    }
   },
 
   methods: {
@@ -82,27 +109,27 @@ export default {
       return {
         messages: [
           ...previousResult.messages,
-          subscriptionData.data.messageAdded,
-        ],
-      }
+          subscriptionData.data.messageAdded
+        ]
+      };
     },
 
     async onUploadImage({ target }) {
-      if (!target.validity.valid) return
+      if (!target.validity.valid) return;
       await this.$apollo.mutate({
         mutation: UPLOAD_FILE,
         variables: {
-          file: target.files[0],
+          file: target.files[0]
         },
         update: (store, { data: { singleUpload } }) => {
-          const data = store.readQuery({ query: FILES })
-          data.files.push(singleUpload)
-          store.writeQuery({ query: FILES, data })
-        },
-      })
+          const data = store.readQuery({ query: FILES });
+          data.files.push(singleUpload);
+          store.writeQuery({ query: FILES, data });
+        }
+      });
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>
@@ -129,27 +156,10 @@ label {
   color: red;
 }
 
-.images {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
-  grid-auto-rows: 300px;
-  grid-gap: 10px;
-}
-
-.image-item {
+.myrow {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ccc;
-  border-radius: 8px;
 }
-
-.image {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.image-input {
-  margin: 20px;
+.myrow .item {
+  width: 50%;
 }
 </style>

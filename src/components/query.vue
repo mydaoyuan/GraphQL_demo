@@ -1,9 +1,8 @@
 <template>
   <div>
-    <div>-----------------</div>
-    <h1>组件形式查询</h1>
+    <h2>组件形式查询</h2>
     <!-- Apollo watched Graphql query -->
-    <ApolloQuery :query="require('../graphql/test.gql')">
+    <ApolloQuery :query="require('../graphql/tags.gql')">
       <template slot-scope="{ result: { loading, error, data } }">
         <!-- Loading -->
         <div v-if="loading" class="loading apollo">Loading...</div>
@@ -20,14 +19,14 @@
     </ApolloQuery>
 
     <div>-----------------</div>
-    <h1>监听变量，动态触发查询</h1>
+    <h2>监听变量，动态触发查询</h2>
     <div>
       <span>监听：</span>
       <input type="text" v-model="pingQuery" />
     </div>
     <div>查询返回结果： {{ ping }}</div>
     <div>-----------------</div>
-    <h1>智能查询，动态触发</h1>
+    <h2>智能查询，动态触发</h2>
     <div>查询返回数据 :{{ featuredTag }}</div>
     <button @click="changeStatus">切换查询语句关键字: {{ showTag }}</button>
   </div>

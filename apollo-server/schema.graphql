@@ -23,12 +23,6 @@ input MessageInput {
   text: String!
 }
 
-# Input from user to create a message
-input testvalue {
-  # Message content
-  value: String!
-}
-
 type File {
   id: ID!
   path: String!
@@ -37,12 +31,19 @@ type File {
   encoding: String!
 }
 
-type Test {
-  id: ID!
-  value: String!
-}
-
 type Tag {
+  id: ID!
+  label: String
+}
+type TagRes {
+  id: ID!
+  label: String
+  error: Int
+}
+type Res {
+  error: Int
+}
+input InputTag {
   id: ID!
   label: String
 }
@@ -50,7 +51,6 @@ type Tag {
 type Query {
   # Test query with a parameter
   # hello(name: String): String!
-  test: [Test]
   tags: [Tag]
   # List of messages sent by users
   messages: [Message]
@@ -62,7 +62,8 @@ type Query {
 type Mutation {
   myMutation: String!
   addTag(label: String!): Tag
-  fuckmeAh(values: [testvalue!]!): [Test!]!
+  delTag(id: ID!): Res
+  updateTag(input: InputTag): TagRes
   # Add a message and publish it on 'messages' subscription channel
   addMessage(input: MessageInput!): Message!
   singleUpload(file: Upload!): File!
